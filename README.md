@@ -1,0 +1,38 @@
+# Schrodinger SurrealDB Sandbox
+
+This repository contains an offline-friendly setup for experimenting with [SurrealDB](https://surrealdb.com/). It includes a prebuilt SurrealDB binary, a set of vendored Python wheels, sample tests and demos, plus copies of the official documentation.
+
+## Quickstart
+
+1. Install the Python dependencies from the vendored wheelhouse:
+
+   ```bash
+   python3.11 -m pip install -r requirements.lock --no-index --find-links wheelhouse
+   ```
+
+2. Launch SurrealDB in memory mode on `localhost:8000`:
+
+   ```bash
+   bin/surreal start memory --user root --pass root --allow-guests --bind 127.0.0.1:8000
+   ```
+
+3. Run the pytest suite using the provided harness:
+
+   ```bash
+   ./scripts/run_tests.sh
+   ```
+
+## Repository layout
+
+| Path          | Purpose                                                        |
+|---------------|----------------------------------------------------------------|
+| `bin/`        | Static SurrealDB binary (Linux x86-64).                         |
+| `demo/`       | Example showing text vector search with a small Qwen model.    |
+| `docs/`       | Offline copies of SurrealDB and Ollama documentation.          |
+| `models/`     | Vendored Ollama model blobs (tracked via Git LFS).             |
+| `scripts/`    | Helper scripts such as `run_tests.sh` and `ask_qwen.py`.       |
+| `tests/`      | Pytest suite exercising basic SurrealDB features.              |
+| `wheelhouse/` | Pre‑downloaded manylinux wheels for offline installation.      |
+
+See `AGENTS.md` for additional contribution guidelines and coding conventions.
+
