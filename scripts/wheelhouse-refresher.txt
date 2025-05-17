@@ -1,0 +1,7 @@
+# refresh wheelhouse (Linux cp311 · manylinux_2_17 wheels only)
+python3.11 -m pip download -r requirements.lock \
+  --dest wheelhouse \
+  --platform manylinux_2_17_x86_64 \
+  --abi cp311 \
+  --python-version 3.11 \
+  --only-binary=:all:
