@@ -1,4 +1,4 @@
-This repo is largely operated by OpenAI Codex.
+This repo is largely operated by OpenAI Codex. It's not really safe to use.
 
 ## Quickstart
 
