@@ -1,0 +1,19 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc.*
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# Virtual environments
+venv/
+ENV/
+
+# Model cache
+models/
