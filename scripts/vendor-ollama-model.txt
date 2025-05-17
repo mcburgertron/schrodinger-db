@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# vendor-ollama-model.sh <modelName> <modelTag>
+# e.g. ./vendor-ollama-model.sh qwen3 0.6b
+
+MODEL_NAME="$1"
+MODEL_TAG="$2"
+
+# 0) cd into your Windows repo via WSL
+cd /mnt/d/Surreal
+
+# 1) Ensure Git LFS is installed & initialized
+command -v git-lfs >/dev/null 2>&1 || { echo "Please install git-lfs"; exit 1; }
+git lfs install
+
+# 2) Tell Ollama to write its cache into your repo
+export OLLAMA_MODELS="$PWD/models/ollama"
+mkdir -p "$OLLAMA_MODELS"
+
+# 3) Kill any background Ollama server so the next pull uses the above path
+pkill ollama 2>/dev/null || true
+
+# 4) Pull directly from the registry into models/ollama
+ollama pull "${MODEL_NAME}:${MODEL_TAG}"
+
+# 5) Track everything under that folder in Git LFS
+git lfs track "models/ollama/**"
+
+# 6) Commit your vendored model
+git add .gitattributes models/ollama
+git commit -m "Vendor ${MODEL_NAME}:${MODEL_TAG} via Git LFS"
+
+echo "✅ Vendored ${MODEL_NAME}:${MODEL_TAG} into models/ollama and committed via LFS."
