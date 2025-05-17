@@ -14,7 +14,7 @@ _SQL_HEADER = {"Accept": "application/json"}
 
 
 def _sql(client: httpx.Client, query: str):
-    res = client.post("/sql", headers=_SQL_HEADER, data=query)
+    res = client.post("/sql", headers=_SQL_HEADER, content=query)
     res.raise_for_status()
     return res.json()
 
