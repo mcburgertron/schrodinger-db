@@ -1,6 +1,4 @@
-# Schrodinger SurrealDB Sandbox
-
-This repository contains an offline-friendly setup for experimenting with [SurrealDB](https://surrealdb.com/). It includes a prebuilt SurrealDB binary, a set of vendored Python wheels, sample tests and demos, plus copies of the official documentation.
+This repo is largely operated by OpenAI Codex.
 
 ## Quickstart
 
