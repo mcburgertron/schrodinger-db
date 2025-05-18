@@ -98,3 +98,21 @@ def test_vector_search_invalid_dimension(client):
     assert status == "ERR" or "Incorrect vector dimension" in str(
         data
     ), "Expected dimension error"
+
+
+def test_vector_compound_magnitude(client):
+    data = _sql(
+        client,
+        "RETURN vector::magnitude(vector::add(vector::cross([1,0,0], [0,1,0]), [0,0,1]));",
+    )
+    mag = data[0]["result"]
+    assert mag == 2, f"Expected magnitude 2, got {mag}"
+
+
+def test_vector_add_dimension_error(client):
+    data = _sql(
+        client,
+        "RETURN vector::dot(vector::add([1,2,3], [4,5]), [1,1,1]);",
+    )
+    status = data[0]["status"]
+    assert status == "ERR", "Expected dimension mismatch error"
