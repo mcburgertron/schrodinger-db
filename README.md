@@ -27,7 +27,7 @@ This repo is largely operated by OpenAI Codex. It's not really safe to use since
 | `bin/`        | Static SurrealDB binary (Linux x86-64).                         |
 | `demo/`       | Example showing text vector search with a small Qwen model.    |
 | `docs/`       | Offline copies of SurrealDB and Ollama documentation.          |
-| `models/`     | Vendored Ollama model blobs (tracked via Git LFS).             |
+| `models/`     | Ollama model blobs. Do not add them back into the repo!       |
 | `scripts/`    | Helper scripts such as `run_tests.sh` and `ask_qwen.py`.       |
 | `tests/`      | Pytest suite exercising basic SurrealDB features.              |
 | `wheelhouse/` | Pre‑downloaded manylinux wheels for offline installation.      |

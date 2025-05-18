@@ -28,4 +28,7 @@
 * **Parametrize, don’t copy‑paste** – Use @pytest.mark.parametrize for small input matrices instead of duplicating code blocks.
 
 * **No sleeps** – Poll or hook into Surreal’s deterministic behaviour rather than inserting arbitrary time.sleep.
+
 * **Log hygiene** – Delete any `ollama.log` files before committing.
+
+* **Models** – Never readd models to the repo!
