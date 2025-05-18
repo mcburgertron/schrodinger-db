@@ -50,3 +50,69 @@ def test_vector_dimension_mismatch(client):
     assert status == "ERR" or "Incorrect vector dimension" in str(
         data
     ), "Expected dimension error"
+
+
+def test_vector_order_by_distance(client):
+    _setup_table(client)
+    data = _sql(
+        client,
+        (
+            "USE NS test DB test; "
+            "SELECT id, vector::distance::euclidean(embedding, [8,9,10]) AS dist "
+            "FROM item ORDER BY dist LIMIT 1;"
+        ),
+    )
+    result = [row["result"] for row in data if row.get("result")][0][0]
+    assert result["id"] == "item:8", f"Expected closest item:8, got {result}"
+
+
+def test_vector_dot_product(client):
+    _setup_table(client)
+    data = _sql(
+        client,
+        (
+            "USE NS test DB test; "
+            "SELECT vector::dot(embedding, [1,1,1]) AS dot FROM item WHERE id = item:4;"
+        ),
+    )
+    dot = [row["result"] for row in data if row.get("result")][0][0]["dot"]
+    assert dot == 15, f"Expected dot 15, got {dot}"
+
+
+def test_vector_cross_length_error(client):
+    data = _sql(
+        client,
+        "RETURN vector::cross([1,2,3], [1,2]);",
+    )
+    status = data[0]["status"]
+    assert status == "ERR", "Expected length mismatch error"
+
+
+def test_vector_search_invalid_dimension(client):
+    _setup_table(client)
+    data = _sql(
+        client,
+        "USE NS test DB test; SELECT id FROM item WHERE embedding <|4|> [1,2,3,4];",
+    )
+    status = data[1]["status"] if len(data) > 1 else data[0]["status"]
+    assert status == "ERR" or "Incorrect vector dimension" in str(
+        data
+    ), "Expected dimension error"
+
+
+def test_vector_compound_magnitude(client):
+    data = _sql(
+        client,
+        "RETURN vector::magnitude(vector::add(vector::cross([1,0,0], [0,1,0]), [0,0,1]));",
+    )
+    mag = data[0]["result"]
+    assert mag == 2, f"Expected magnitude 2, got {mag}"
+
+
+def test_vector_add_dimension_error(client):
+    data = _sql(
+        client,
+        "RETURN vector::dot(vector::add([1,2,3], [4,5]), [1,1,1]);",
+    )
+    status = data[0]["status"]
+    assert status == "ERR", "Expected dimension mismatch error"
