@@ -53,10 +53,7 @@ def test_index_docs_success(tmp_path: Path, client: httpx.Client):
         f"USE NS test DB test; SELECT text FROM docs_test WHERE embedding <|3|> {vec} LIMIT 1;",
     )
     texts = [
-        row["text"]
-        for item in data
-        if item.get("result")
-        for row in item["result"]
+        row["text"] for item in data if item.get("result") for row in item["result"]
     ]
     assert sample.read_text() in texts
 
